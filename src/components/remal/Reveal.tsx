@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ElementType, type ReactNode } from "react";
 
 export function Reveal({
   children,
@@ -8,7 +8,7 @@ export function Reveal({
 }: {
   children: ReactNode;
   delay?: number;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   className?: string;
 }) {
   const ref = useRef<HTMLElement | null>(null);
@@ -31,8 +31,11 @@ export function Reveal({
     return () => io.disconnect();
   }, [delay]);
 
-  // @ts-expect-error generic tag
-  return <Tag ref={ref} className={`reveal ${className}`}>{children}</Tag>;
+  return (
+    <Tag ref={ref as never} className={`reveal ${className}`}>
+      {children}
+    </Tag>
+  );
 }
 
 export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
