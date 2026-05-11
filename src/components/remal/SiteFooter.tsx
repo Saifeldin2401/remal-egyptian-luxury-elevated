@@ -28,28 +28,28 @@ export function SiteFooter() {
             </form>
           </div>
 
-          <FooterCol
-            title="Brand"
-            links={[
-              { to: "/about", label: "About" },
-              { to: "/sustainability", label: "Sustainability" },
-              { to: "/journal", label: "Journal" },
-            ]}
-          />
-          <FooterCol
-            title="Discover"
-            links={[
-              { to: "/destinations", label: "Destinations" },
-              { to: "/experiences", label: "Experiences" },
-            ]}
-          />
-          <FooterCol
-            title="Partner"
-            links={[
-              { to: "/services", label: "Services" },
-              { to: "/contact", label: "Contact" },
-            ]}
-          />
+          <div className="md:col-span-2">
+            <div className="eyebrow text-ivory/60">Brand</div>
+            <ul className="mt-4 space-y-3 text-sm text-ivory/80">
+              <li><Link to="/about" className="hover:text-ivory">About</Link></li>
+              <li><Link to="/sustainability" className="hover:text-ivory">Sustainability</Link></li>
+              <li><Link to="/journal" className="hover:text-ivory">Journal</Link></li>
+            </ul>
+          </div>
+          <div className="md:col-span-2">
+            <div className="eyebrow text-ivory/60">Discover</div>
+            <ul className="mt-4 space-y-3 text-sm text-ivory/80">
+              <li><Link to="/destinations" className="hover:text-ivory">Destinations</Link></li>
+              <li><Link to="/experiences" className="hover:text-ivory">Experiences</Link></li>
+            </ul>
+          </div>
+          <div className="md:col-span-2">
+            <div className="eyebrow text-ivory/60">Partner</div>
+            <ul className="mt-4 space-y-3 text-sm text-ivory/80">
+              <li><Link to="/services" className="hover:text-ivory">Services</Link></li>
+              <li><Link to="/contact" className="hover:text-ivory">Contact</Link></li>
+            </ul>
+          </div>
 
           <div className="md:col-span-2">
             <div className="eyebrow text-ivory/60">Cairo</div>
@@ -73,28 +73,5 @@ export function SiteFooter() {
         </div>
       </div>
     </footer>
-  );
-}
-
-function FooterCol({
-  title,
-  links,
-}: {
-  title: string;
-  links: { to: string; label: string }[];
-}) {
-  return (
-    <div className="md:col-span-2">
-      <div className="eyebrow text-ivory/60">{title}</div>
-      <ul className="mt-4 space-y-3 text-sm text-ivory/80">
-        {links.map((l) => (
-          <li key={l.to}>
-            <Link to={l.to} className="hover:text-ivory">
-              {l.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
