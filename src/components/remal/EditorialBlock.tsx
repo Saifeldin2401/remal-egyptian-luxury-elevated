@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Reveal, Eyebrow } from "./Reveal";
 
 export function EditorialBlock({
@@ -23,12 +24,12 @@ export function EditorialBlock({
         <Reveal
           className={`md:col-span-7 ${reverse ? "md:order-2" : ""}`}
         >
-          <div className="overflow-hidden">
+          <div className="img-hover-zoom overflow-hidden shadow-2xl shadow-charcoal/10">
             <img
               src={image}
               alt={imageAlt}
               loading="lazy"
-              className="h-[60vh] w-full object-cover md:h-[80vh]"
+              className="h-[60vh] w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105 md:h-[80vh]"
             />
           </div>
         </Reveal>
@@ -44,12 +45,12 @@ export function EditorialBlock({
             {body}
           </p>
           {cta && (
-            <a
-              href={cta.href}
-              className="mt-10 inline-block border-b border-charcoal pb-1 text-[11px] uppercase tracking-[0.3em] text-charcoal hover:text-clay"
+            <Link
+              to={cta.href}
+              className="mt-10 inline-block border-b border-charcoal pb-1 text-[11px] uppercase tracking-[0.3em] text-charcoal transition-colors hover:text-clay"
             >
               {cta.label}
-            </a>
+            </Link>
           )}
         </Reveal>
       </div>
