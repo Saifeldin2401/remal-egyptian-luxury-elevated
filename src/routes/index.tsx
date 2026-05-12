@@ -69,13 +69,33 @@ function Home() {
       {/* HERO */}
       <section className="relative h-[100svh] w-full overflow-hidden">
         <div className="absolute inset-0">
+          <video
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={hero}
+            aria-hidden="true"
+          >
+            <source
+              src="https://videos.pexels.com/video-files/1093662/1093662-hd_1280_720_30fps.mp4"
+              type="video/mp4"
+            />
+            <source
+              src="https://videos.pexels.com/video-files/4763824/4763824-hd_1280_720_24fps.mp4"
+              type="video/mp4"
+            />
+          </video>
           <img
             src={hero}
-            alt="Aerial view of a luxury desert resort in Egypt at golden hour"
-            className="h-full w-full object-cover ken-burns"
-            fetchPriority="high"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 h-full w-full object-cover ken-burns"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-charcoal/55 via-charcoal/25 to-charcoal/70" />
+          <div className="absolute inset-0 bg-charcoal/20" />
         </div>
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-ivory">
           <Reveal>
