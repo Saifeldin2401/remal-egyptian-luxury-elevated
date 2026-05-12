@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SustainabilityRouteImport } from './routes/sustainability'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as ExperiencesRouteImport } from './routes/experiences'
@@ -16,6 +17,11 @@ import { Route as DestinationsRouteImport } from './routes/destinations'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DestinationsSlugRouteImport } from './routes/destinations.$slug'
 
+const SustainabilityRoute = SustainabilityRouteImport.update({
+  id: '/sustainability',
+  path: '/sustainability',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/experiences': typeof ExperiencesRoute
   '/journal': typeof JournalRoute
   '/services': typeof ServicesRoute
+  '/sustainability': typeof SustainabilityRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/experiences': typeof ExperiencesRoute
   '/journal': typeof JournalRoute
   '/services': typeof ServicesRoute
+  '/sustainability': typeof SustainabilityRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/experiences': typeof ExperiencesRoute
   '/journal': typeof JournalRoute
   '/services': typeof ServicesRoute
+  '/sustainability': typeof SustainabilityRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/experiences'
     | '/journal'
     | '/services'
+    | '/sustainability'
     | '/destinations/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/experiences'
     | '/journal'
     | '/services'
+    | '/sustainability'
     | '/destinations/$slug'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/experiences'
     | '/journal'
     | '/services'
+    | '/sustainability'
     | '/destinations/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -105,10 +117,18 @@ export interface RootRouteChildren {
   ExperiencesRoute: typeof ExperiencesRoute
   JournalRoute: typeof JournalRoute
   ServicesRoute: typeof ServicesRoute
+  SustainabilityRoute: typeof SustainabilityRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sustainability': {
+      id: '/sustainability'
+      path: '/sustainability'
+      fullPath: '/sustainability'
+      preLoaderRoute: typeof SustainabilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
@@ -172,7 +192,18 @@ const rootRouteChildren: RootRouteChildren = {
   ExperiencesRoute: ExperiencesRoute,
   JournalRoute: JournalRoute,
   ServicesRoute: ServicesRoute,
+  SustainabilityRoute: SustainabilityRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
