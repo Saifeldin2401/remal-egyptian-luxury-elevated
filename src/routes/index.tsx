@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { SandLoader } from "@/components/remal/SandLoader";
 import { SiteHeader } from "@/components/remal/SiteHeader";
 import { SiteFooter } from "@/components/remal/SiteFooter";
 import { Reveal, Eyebrow } from "@/components/remal/Reveal";
@@ -71,27 +70,20 @@ const SERVICES = [
 ];
 
 /* ──────────── HERO VIDEO BACKGROUND ──────────── */
-// Egyptian-specific Pexels videos (all free license, Egypt-only footage)
 const HERO_VIDEOS = [
-  // Aerial view on Pyramids in Cairo — cinematic drone shot (user-selected primary)
   "https://videos.pexels.com/video-files/10717893/10717893-uhd_2560_1440_24fps.mp4",
-  // Pyramids of Giza at golden hour with desert panorama
   "https://videos.pexels.com/video-files/3015482/3015482-hd_1920_1080_24fps.mp4",
-  // Nile River felucca sailing at sunset — classic Egyptian tourism scene
   "https://videos.pexels.com/video-files/5765245/5765245-hd_1920_1080_30fps.mp4",
-  // Egyptian desert landscape with warm golden light
   "https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4",
 ];
 
 function HeroVideo({ onReady }: { onReady?: () => void }) {
   const videoA = useRef<HTMLVideoElement>(null);
   const videoB = useRef<HTMLVideoElement>(null);
-  // "a" = video A is in front, "b" = video B is in front
   const [front, setFront] = useState<"a" | "b">("a");
   const indexRef = useRef(0);
   const [ready, setReady] = useState(false);
 
-  // Mark ready once video A loads the first clip
   useEffect(() => {
     const v = videoA.current;
     if (!v) return;
@@ -103,7 +95,6 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
     return () => v.removeEventListener("canplay", h);
   }, [onReady]);
 
-  // Preload clip into video B immediately so it's ready for the first transition
   useEffect(() => {
     const v = videoB.current;
     if (!v || !ready) return;
@@ -111,7 +102,6 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
     v.load();
   }, [ready]);
 
-  // Main loop: every 6s, crossfade A↔B
   useEffect(() => {
     if (!ready) return;
 
@@ -119,17 +109,12 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
       const backRef = front === "a" ? videoB : videoA;
       const newFront = front === "a" ? "b" : "a";
 
-      // The back video is already preloaded — start playing it
       backRef.current?.play().catch(() => {});
-
-      // Crossfade: bring the back video to front
       setFront(newFront);
 
-      // After crossfade finishes, preload the NEXT clip into the now-hidden old-front
       setTimeout(() => {
         indexRef.current = (indexRef.current + 1) % HERO_VIDEOS.length;
         const nextClipIndex = (indexRef.current + 1) % HERO_VIDEOS.length;
-        // The old front is now behind — safe to swap its source
         const oldFrontRef = front === "a" ? videoA : videoB;
         const v = oldFrontRef.current;
         if (v) {
@@ -146,7 +131,6 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
 
   return (
     <div className="hero-video-wrapper">
-      {/* Video A */}
       <video
         ref={videoA}
         className={sharedStyle}
@@ -160,7 +144,6 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
         <source src={HERO_VIDEOS[0]} type="video/mp4" />
       </video>
 
-      {/* Video B */}
       <video
         ref={videoB}
         className={sharedStyle}
@@ -172,7 +155,6 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
         muted playsInline preload="auto" aria-hidden="true"
       />
 
-      {/* Gradient overlay */}
       <div className="absolute inset-0 z-[3] bg-gradient-to-b from-charcoal/60 via-charcoal/20 to-charcoal/75" />
       <div className="absolute inset-0 z-[3] bg-charcoal/15" />
     </div>
@@ -184,8 +166,12 @@ function Home() {
   const [videoReady, setVideoReady] = useState(false);
   const handleVideoReady = useCallback(() => setVideoReady(true), []);
 
+  // Subtle parallax on desktop only
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   useEffect(() => {
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({
         x: (e.clientX / window.innerWidth - 0.5) * 20,
@@ -198,19 +184,15 @@ function Home() {
 
   return (
     <div className="bg-background text-foreground">
-      <SandLoader videoReady={videoReady} />
       <ScrollProgress />
       <SiteHeader overlay />
 
       {/* ═══════════ HERO ═══════════ */}
       <section className="relative h-[100svh] w-full overflow-hidden" id="hero">
         <HeroVideo onReady={handleVideoReady} />
-        
-        {/* Cinematic grain overlay */}
-        <div className="pointer-events-none absolute inset-0 z-[4] opacity-[0.03] mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
 
-        <div 
-          className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-ivory transition-transform duration-300 ease-out"
+        <div
+          className="relative z-10 flex h-full flex-col items-center justify-center px-5 text-center text-ivory transition-transform duration-300 ease-out sm:px-6"
           style={{
             transform: `translate(${mousePos.x}px, ${mousePos.y}px)`,
           }}
@@ -221,19 +203,19 @@ function Home() {
             </Eyebrow>
           </Reveal>
           <Reveal delay={200}>
-            <h1 className="animate-reveal-blur text-shadow-hero mx-auto mt-10 max-w-4xl font-serif text-[clamp(2.5rem,6vw,5.5rem)] leading-[1] tracking-tight">
+            <h1 className="text-shadow-hero mx-auto mt-8 max-w-4xl font-serif text-[clamp(2rem,8vw,5.5rem)] leading-[1] tracking-tight sm:text-[clamp(2.5rem,6vw,5.5rem)]">
               A New Vision for Egyptian Hospitality
             </h1>
           </Reveal>
           <Reveal delay={400}>
-            <p className="mx-auto mt-8 max-w-xl text-base font-light leading-relaxed text-ivory/80 md:text-lg">
+            <p className="mx-auto mt-6 max-w-xl text-sm font-light leading-relaxed text-ivory/80 sm:text-base md:text-lg">
               REMAL is building the next generation of immersive destinations
               across Egypt — through elevated hospitality, cultural connection,
               and world-class management.
             </p>
           </Reveal>
           <Reveal delay={600}>
-            <div className="mt-12 flex flex-col items-center gap-5 sm:flex-row">
+            <div className="mt-10 flex flex-col items-center gap-4 sm:mt-12 sm:flex-row sm:gap-5">
               <Link to="/about" className="btn-primary">
                 <span>Discover REMAL</span>
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -256,13 +238,13 @@ function Home() {
       </section>
 
       {/* ═══════════ INTRO ═══════════ */}
-      <section className="bg-background py-32 md:py-48" id="intro">
-        <div className="mx-auto max-w-3xl px-6 text-center">
+      <section className="bg-background py-24 md:py-48" id="intro">
+        <div className="mx-auto max-w-3xl px-5 text-center sm:px-6">
           <Reveal>
             <Eyebrow>A New Chapter in Egyptian Hospitality</Eyebrow>
           </Reveal>
           <Reveal delay={120}>
-            <p className="mt-10 font-serif text-2xl leading-[1.4] text-charcoal md:text-[34px]">
+            <p className="mt-8 font-serif text-xl leading-[1.4] text-charcoal sm:text-2xl md:text-[34px]">
               We are a hospitality house — operators, designers and storytellers
               building the next generation of resorts, retreats and experiences
               along the Nile, the Red Sea and the great Egyptian desert.
@@ -272,9 +254,9 @@ function Home() {
       </section>
 
       {/* ═══════════ VISION ═══════════ */}
-      <section className="border-y hairline bg-secondary py-20 md:py-28">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+      <section className="border-y hairline bg-secondary py-16 md:py-28">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-6 md:px-10">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-12">
             {[
               { number: "01", title: "Operate", body: "Boutique hotels and resorts with world-class standards and a uniquely Egyptian soul." },
               { number: "02", title: "Design", body: "Guest experiences rooted in place — from architecture to arrival rituals." },
@@ -283,7 +265,7 @@ function Home() {
               <Reveal key={v.title} delay={i * 120}>
                 <div className="text-center">
                   <div className="text-sm font-medium uppercase tracking-[0.3em] text-clay">{v.number}</div>
-                  <h3 className="mt-3 font-serif text-3xl md:text-4xl">{v.title}</h3>
+                  <h3 className="mt-3 font-serif text-2xl sm:text-3xl md:text-4xl">{v.title}</h3>
                   <p className="mx-auto mt-4 max-w-xs text-sm text-muted-foreground">{v.body}</p>
                 </div>
               </Reveal>
@@ -293,12 +275,12 @@ function Home() {
       </section>
 
       {/* ═══════════ DESTINATIONS ═══════════ */}
-      <section className="bg-background py-32 md:py-44">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-          <div className="mb-16 flex items-end justify-between">
+      <section className="bg-background py-24 md:py-44">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-6 md:px-10">
+          <div className="mb-12 flex items-end justify-between md:mb-16">
             <Reveal>
               <Eyebrow>Across Egypt</Eyebrow>
-              <h2 className="mt-4 font-serif text-4xl md:text-5xl">Where We're Heading</h2>
+              <h2 className="mt-4 font-serif text-3xl md:text-5xl">Where We're Heading</h2>
             </Reveal>
             <Reveal>
               <Link
@@ -311,7 +293,7 @@ function Home() {
             </Reveal>
           </div>
 
-          <div className="grid grid-cols-1 gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
             {destinations.map((d, i) => (
               <Reveal key={d.slug} delay={i * 60}>
                 <Link
@@ -327,9 +309,9 @@ function Home() {
                       className="aspect-[4/5] w-full object-cover"
                     />
                   </div>
-                  <div className="mt-6">
+                  <div className="mt-5 sm:mt-6">
                     <div className="eyebrow">{d.region}</div>
-                    <h3 className="mt-2 font-serif text-2xl transition-colors group-hover:text-clay">{d.name}</h3>
+                    <h3 className="mt-2 font-serif text-xl transition-colors group-hover:text-clay sm:text-2xl">{d.name}</h3>
                     <p className="mt-2 max-w-xs text-sm text-muted-foreground">
                       {d.tagline}
                     </p>
@@ -341,10 +323,7 @@ function Home() {
 
           {/* Mobile CTA */}
           <div className="mt-12 text-center md:hidden">
-            <Link
-              to="/destinations"
-              className="btn-dark"
-            >
+            <Link to="/destinations" className="btn-dark">
               <span>All destinations</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
@@ -373,14 +352,14 @@ function Home() {
       />
 
       {/* ═══════════ SERVICES ═══════════ */}
-      <section className="bg-secondary py-32 md:py-44">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-16 px-6 md:grid-cols-12 md:px-10">
+      <section className="bg-secondary py-24 md:py-44">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-12 px-5 sm:px-6 md:grid-cols-12 md:gap-16 md:px-10">
           <div className="md:col-span-4">
             <Reveal>
               <Eyebrow>Hospitality Services</Eyebrow>
             </Reveal>
             <Reveal delay={120}>
-              <h2 className="mt-6 font-serif text-4xl leading-[1.05] md:text-5xl">
+              <h2 className="mt-6 font-serif text-3xl leading-[1.05] md:text-5xl">
                 Operating excellence, end to end.
               </h2>
             </Reveal>
@@ -403,10 +382,10 @@ function Home() {
           <ul className="md:col-span-8">
             {SERVICES.map((s, i) => (
               <Reveal key={s.name} delay={i * 40}>
-                <li className="group flex items-baseline justify-between border-t hairline py-7 last:border-b">
+                <li className="group flex flex-col gap-1 border-t hairline py-5 last:border-b sm:flex-row sm:items-baseline sm:justify-between sm:py-7">
                   <div>
-                    <span className="font-serif text-2xl md:text-3xl">{s.name}</span>
-                    <p className="mt-1 max-w-md text-sm text-muted-foreground opacity-0 transition-all duration-500 group-hover:opacity-100">
+                    <span className="font-serif text-xl sm:text-2xl md:text-3xl">{s.name}</span>
+                    <p className="mt-1 max-w-md text-sm text-muted-foreground opacity-100 transition-all duration-500 sm:opacity-0 sm:group-hover:opacity-100">
                       {s.desc}
                     </p>
                   </div>
@@ -424,27 +403,28 @@ function Home() {
       <ParallaxSection
         image={dividerDesert}
         imageAlt="Egyptian desert at dusk with distant temple silhouette"
+        height="h-[60vh] md:h-[80vh]"
       >
         <Reveal>
-          <h2 className="font-serif text-4xl text-ivory md:text-6xl lg:text-7xl">
+          <h2 className="px-5 font-serif text-3xl text-ivory sm:text-4xl md:text-6xl lg:text-7xl">
             Hospitality Beyond Accommodation.
           </h2>
         </Reveal>
       </ParallaxSection>
 
       {/* ═══════════ OUR PROMISE ═══════════ */}
-      <section className="bg-background py-32 md:py-44">
-        <div className="mx-auto max-w-3xl px-6 text-center md:px-10">
+      <section className="bg-background py-24 md:py-44">
+        <div className="mx-auto max-w-3xl px-5 text-center sm:px-6 md:px-10">
           <Reveal>
             <Eyebrow>Our Promise</Eyebrow>
           </Reveal>
           <Reveal delay={120}>
-            <h2 className="mt-6 font-serif text-3xl leading-[1.2] md:text-5xl">
+            <h2 className="mt-6 font-serif text-2xl leading-[1.2] sm:text-3xl md:text-5xl">
               Every detail, considered.<br />Every guest, remembered.
             </h2>
           </Reveal>
           <Reveal delay={240}>
-            <p className="mx-auto mt-8 max-w-xl text-muted-foreground">
+            <p className="mx-auto mt-6 max-w-xl text-muted-foreground sm:mt-8">
               We are building REMAL with a singular obsession: to create hospitality
               experiences across Egypt that are as generous and warm as the country itself.
               From the first property to the hundredth, this promise will not change.
@@ -454,12 +434,12 @@ function Home() {
       </section>
 
       {/* ═══════════ JOURNAL / STORIES ═══════════ */}
-      <section className="bg-secondary py-32 md:py-44">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-          <div className="mb-16 flex items-end justify-between">
+      <section className="bg-secondary py-24 md:py-44">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-6 md:px-10">
+          <div className="mb-12 flex items-end justify-between md:mb-16">
             <Reveal>
               <Eyebrow>From the Journal</Eyebrow>
-              <h2 className="mt-4 font-serif text-4xl md:text-5xl">Our Stories</h2>
+              <h2 className="mt-4 font-serif text-3xl md:text-5xl">Our Stories</h2>
             </Reveal>
             <Reveal>
               <Link
@@ -472,9 +452,9 @@ function Home() {
             </Reveal>
           </div>
 
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
             <Reveal className="md:col-span-7">
-              <article className="group cursor-pointer">
+              <Link to="/journal/$slug" params={{ slug: "hands-that-shape-a-stay" }} className="group block">
                 <div className="img-hover-zoom overflow-hidden">
                   <img
                     src={journalArtisan}
@@ -483,19 +463,19 @@ function Home() {
                     className="aspect-[4/3] w-full object-cover"
                   />
                 </div>
-                <div className="eyebrow mt-6">Craft</div>
-                <h3 className="mt-3 font-serif text-3xl transition-colors group-hover:text-clay">
+                <div className="eyebrow mt-5 sm:mt-6">Craft</div>
+                <h3 className="mt-2 font-serif text-2xl transition-colors group-hover:text-clay sm:text-3xl">
                   The Hands That Shape a Stay
                 </h3>
-                <p className="mt-4 max-w-lg text-muted-foreground">
+                <p className="mt-3 max-w-lg text-sm text-muted-foreground sm:text-base">
                   How we work with weavers, ceramicists and perfumers across
                   Egypt to give each property a sense of place.
                 </p>
-              </article>
+              </Link>
             </Reveal>
-            <div className="space-y-12 md:col-span-5">
+            <div className="space-y-8 md:col-span-5 md:space-y-12">
               <Reveal delay={120}>
-                <article className="group grid cursor-pointer grid-cols-12 gap-5">
+                <Link to="/journal/$slug" params={{ slug: "a-table-in-the-sand" }} className="group grid grid-cols-12 gap-4 sm:gap-5">
                   <div className="img-hover-zoom col-span-5 overflow-hidden">
                     <img
                       src={journalDining}
@@ -506,17 +486,17 @@ function Home() {
                   </div>
                   <div className="col-span-7">
                     <div className="eyebrow">Experience</div>
-                    <h3 className="mt-2 font-serif text-xl transition-colors group-hover:text-clay">
+                    <h3 className="mt-2 font-serif text-lg transition-colors group-hover:text-clay sm:text-xl">
                       A Table in the Sand
                     </h3>
                     <p className="mt-2 text-sm text-muted-foreground">
                       Notes from a private dinner under the Sinai sky.
                     </p>
                   </div>
-                </article>
+                </Link>
               </Reveal>
               <Reveal delay={220}>
-                <article className="group grid cursor-pointer grid-cols-12 gap-5">
+                <Link to="/journal/$slug" params={{ slug: "quiet-of-the-stars" }} className="group grid grid-cols-12 gap-4 sm:gap-5">
                   <div className="img-hover-zoom col-span-5 overflow-hidden">
                     <img
                       src={journalStars}
@@ -527,36 +507,44 @@ function Home() {
                   </div>
                   <div className="col-span-7">
                     <div className="eyebrow">Philosophy</div>
-                    <h3 className="mt-2 font-serif text-xl transition-colors group-hover:text-clay">
+                    <h3 className="mt-2 font-serif text-lg transition-colors group-hover:text-clay sm:text-xl">
                       The Quiet of the Stars
                     </h3>
                     <p className="mt-2 text-sm text-muted-foreground">
                       On designing for stillness in a hyper-connected world.
                     </p>
                   </div>
-                </article>
+                </Link>
               </Reveal>
             </div>
+          </div>
+
+          {/* Mobile CTA */}
+          <div className="mt-12 text-center md:hidden">
+            <Link to="/journal" className="btn-dark">
+              <span>Read the journal</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </div>
       </section>
 
       {/* ═══════════ SUSTAINABILITY ═══════════ */}
-      <section className="bg-background py-32 md:py-44">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-stretch gap-12 px-6 md:grid-cols-12 md:gap-20 md:px-10">
+      <section className="bg-background py-24 md:py-44">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-stretch gap-10 px-5 sm:px-6 md:grid-cols-12 md:gap-20 md:px-10">
           <Reveal className="md:col-span-5 md:py-24">
             <Eyebrow>Land · Culture · Community</Eyebrow>
-            <h2 className="mt-6 font-serif text-4xl leading-[1.05] md:text-5xl">
+            <h2 className="mt-6 font-serif text-3xl leading-[1.05] md:text-5xl">
               A Sustainability Rooted in Place.
             </h2>
-            <p className="mt-8 text-muted-foreground">
+            <p className="mt-6 text-muted-foreground sm:mt-8">
               Every REMAL property will be built in dialogue with its landscape and
               the communities that have shaped it for generations. We will measure
               success in the regeneration we leave behind.
             </p>
             <Link
               to="/sustainability"
-              className="mt-10 inline-flex items-center gap-2 border-b border-charcoal pb-1 text-[11px] uppercase tracking-[0.3em] transition-colors hover:text-clay"
+              className="mt-8 inline-flex items-center gap-2 border-b border-charcoal pb-1 text-[11px] uppercase tracking-[0.3em] transition-colors hover:text-clay sm:mt-10"
             >
               Read more
               <ArrowRight className="h-3 w-3" />
@@ -568,7 +556,7 @@ function Home() {
                 src={sustainability}
                 alt="Aerial view of turquoise lagoon meeting golden coastline"
                 loading="lazy"
-                className="h-[60vh] w-full object-cover md:h-full"
+                className="h-[50vh] w-full object-cover sm:h-[60vh] md:h-full"
               />
             </div>
           </Reveal>
@@ -576,19 +564,19 @@ function Home() {
       </section>
 
       {/* ═══════════ CTA / CONTACT ═══════════ */}
-      <section className="bg-charcoal py-32 text-ivory md:py-44">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-16 px-6 md:grid-cols-12 md:px-10">
+      <section className="bg-charcoal py-24 text-ivory md:py-44">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-12 px-5 sm:px-6 md:grid-cols-12 md:gap-16 md:px-10">
           <div className="md:col-span-5">
             <Reveal>
               <Eyebrow className="text-ivory/60">Partnerships</Eyebrow>
             </Reveal>
             <Reveal delay={120}>
-              <h2 className="mt-6 font-serif text-4xl leading-[1.05] md:text-6xl">
+              <h2 className="mt-6 font-serif text-3xl leading-[1.05] md:text-6xl">
                 Let's Shape the Future of Hospitality in Egypt.
               </h2>
             </Reveal>
             <Reveal delay={240}>
-              <p className="mt-8 max-w-md text-ivory/65">
+              <p className="mt-6 max-w-md text-ivory/65 sm:mt-8">
                 Hotel owners, developers, landowners, and brands — we're
                 listening. Tell us about your property, your land, or the idea
                 you've been holding onto.

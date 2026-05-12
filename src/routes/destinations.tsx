@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/remal/SiteFooter";
 import { Reveal, Eyebrow } from "@/components/remal/Reveal";
 import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
+import { Breadcrumb } from "@/components/remal/Breadcrumb";
 import { destinations } from "@/data/destinations";
 import { ArrowRight } from "lucide-react";
 import hero from "@/assets/dest-redsea.jpg";
@@ -12,17 +13,9 @@ export const Route = createFileRoute("/destinations")({
   head: () => ({
     meta: [
       { title: "Destinations — REMAL" },
-      {
-        name: "description",
-        content:
-          "From the Red Sea to Siwa — explore the destinations shaped by REMAL across Egypt.",
-      },
+      { name: "description", content: "From the Red Sea to Siwa — explore the destinations shaped by REMAL across Egypt." },
       { property: "og:title", content: "Destinations — REMAL" },
-      {
-        property: "og:description",
-        content:
-          "Boutique resorts and immersive retreats from the Red Sea coast to the Siwa oasis.",
-      },
+      { property: "og:description", content: "Boutique resorts and immersive retreats from the Red Sea coast to the Siwa oasis." },
       { property: "og:image", content: hero },
     ],
   }),
@@ -40,6 +33,10 @@ function DestinationsPage() {
         image={hero}
         imageAlt="Wooden jetty leading to overwater villas at sunrise on the Red Sea"
       />
+
+      <div className="mx-auto max-w-[1400px] px-6 pt-8 md:px-10">
+        <Breadcrumb items={[{ label: "Destinations", href: "/destinations" }]} />
+      </div>
 
       <section className="mx-auto max-w-[1400px] px-6 py-32 md:px-10 md:py-44">
         <div className="mb-16 text-center">
@@ -87,9 +84,8 @@ function DestinationsPage() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="bg-charcoal py-24 text-center text-ivory md:py-32">
-        <div className="mx-auto max-w-2xl px-6">
+        <div className="mx-auto max-w-2xl px-5 sm:px-6">
           <Reveal>
             <h2 className="font-serif text-3xl md:text-5xl">
               Interested in developing a destination with us?

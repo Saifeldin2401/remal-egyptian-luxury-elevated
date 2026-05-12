@@ -10,7 +10,7 @@ interface Testimonial {
 
 export function TestimonialCarousel({ testimonials }: { testimonials: Testimonial[] }) {
   const [current, setCurrent] = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval>>();
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const next = useCallback(() => {
     setCurrent((c) => (c + 1) % testimonials.length);
@@ -22,7 +22,9 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
 
   useEffect(() => {
     intervalRef.current = setInterval(next, 6000);
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [next]);
 
   const t = testimonials[current];

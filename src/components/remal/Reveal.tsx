@@ -1,5 +1,9 @@
 import { useEffect, useRef, type ElementType, type ReactNode } from "react";
 
+const prefersReducedMotion =
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 export function Reveal({
   children,
   delay = 0,
@@ -16,11 +20,19 @@ export function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    if (prefersReducedMotion) {
+      el.classList.add("is-visible");
+      return;
+    }
+
+    let timer: ReturnType<typeof setTimeout> | null = null;
+
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
-            setTimeout(() => el.classList.add("is-visible"), delay);
+            timer = setTimeout(() => el.classList.add("is-visible"), delay);
             io.unobserve(el);
           }
         }
@@ -28,7 +40,11 @@ export function Reveal({
       { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
     );
     io.observe(el);
-    return () => io.disconnect();
+
+    return () => {
+      io.disconnect();
+      if (timer) clearTimeout(timer);
+    };
   }, [delay]);
 
   return (

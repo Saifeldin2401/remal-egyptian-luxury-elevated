@@ -6,35 +6,12 @@ import { EditorialBlock } from "@/components/remal/EditorialBlock";
 import { StatCounter } from "@/components/remal/StatCounter";
 import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
-import { ArrowRight, Leaf, Palette, HandHeart } from "lucide-react";
+import { Breadcrumb } from "@/components/remal/Breadcrumb";
+import { pillars, impactStats } from "@/data/sustainability";
+import { ArrowRight } from "lucide-react";
 import hero from "@/assets/sustainability.jpg";
 import villa from "@/assets/feature-villa.jpg";
 import desert from "@/assets/divider-desert.jpg";
-
-const PILLARS = [
-  {
-    icon: Leaf,
-    title: "Land",
-    body: "Every property is built in dialogue with its landscape — minimal footprint, native materials, and zero single-use plastic. We design to disappear into the environment.",
-  },
-  {
-    icon: Palette,
-    title: "Culture",
-    body: "We hire locally, train rigorously, and celebrate the artisans who give each region its identity. Cultural production is not decoration — it is the soul of a stay.",
-  },
-  {
-    icon: HandHeart,
-    title: "Community",
-    body: "A share of every stay funds education, conservation and women-led enterprises near each property. Hospitality should enrich not just guests but the places they visit.",
-  },
-];
-
-const IMPACT = [
-  { value: 100, suffix: "%", label: "Local Hiring Commitment" },
-  { value: 0, label: "Single-Use Plastic Target" },
-  { value: 5, label: "Community Partnerships Planned" },
-  { value: 2, label: "Conservation Initiatives" },
-];
 
 export const Route = createFileRoute("/sustainability")({
   head: () => ({
@@ -61,8 +38,12 @@ function SustainabilityPage() {
         imageAlt="Aerial view of turquoise lagoon meeting golden coastline"
       />
 
+      <div className="mx-auto max-w-[1400px] px-6 pt-8 md:px-10">
+        <Breadcrumb items={[{ label: "Sustainability", href: "/sustainability" }]} />
+      </div>
+
       {/* Intro */}
-      <section className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
+      <section className="mx-auto max-w-3xl px-5 py-20 text-center sm:px-6 md:py-32">
         <Reveal>
           <p className="font-serif text-xl leading-[1.5] text-muted-foreground md:text-2xl">
             Sustainability is not a programme — it will be the foundation of every decision we make.
@@ -74,7 +55,7 @@ function SustainabilityPage() {
       {/* Three pillars */}
       <section className="mx-auto max-w-[1400px] px-6 pb-32 md:px-10">
         <div className="grid gap-12 md:grid-cols-3">
-          {PILLARS.map((p, i) => (
+          {pillars.map((p, i) => (
             <Reveal key={p.title} delay={i * 120}>
               <div className="group border-t hairline pt-8">
                 <p.icon className="h-6 w-6 text-palm transition-transform duration-500 group-hover:scale-110" />
@@ -92,8 +73,13 @@ function SustainabilityPage() {
         <div className="mx-auto max-w-[1400px] px-6 md:px-10">
           <div className="mb-12 text-center">
             <Reveal><Eyebrow>Our Impact</Eyebrow></Reveal>
+            <Reveal delay={100}>
+              <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground">
+                These are our commitments and targets for our first five years of operation.
+              </p>
+            </Reveal>
           </div>
-          <StatCounter stats={IMPACT} />
+          <StatCounter stats={impactStats} />
         </div>
       </section>
 
@@ -115,7 +101,7 @@ function SustainabilityPage() {
 
       {/* CTA */}
       <section className="bg-charcoal py-32 text-center text-ivory md:py-44">
-        <div className="mx-auto max-w-2xl px-6">
+        <div className="mx-auto max-w-2xl px-5 sm:px-6">
           <Reveal>
             <h2 className="font-serif text-4xl md:text-5xl">Partner with us on a regenerative project.</h2>
           </Reveal>

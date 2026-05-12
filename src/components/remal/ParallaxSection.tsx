@@ -1,4 +1,8 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+
+const prefersReducedMotion =
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export function ParallaxSection({
   children,
@@ -17,6 +21,8 @@ export function ParallaxSection({
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const section = sectionRef.current;
     const img = imgRef.current;
     if (!section || !img) return;

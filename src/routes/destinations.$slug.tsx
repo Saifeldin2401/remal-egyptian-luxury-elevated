@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/remal/SiteFooter";
 import { Reveal, Eyebrow } from "@/components/remal/Reveal";
 import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
+import { Breadcrumb } from "@/components/remal/Breadcrumb";
 import { destinations, getDestination } from "@/data/destinations";
 import { ArrowRight, MapPin } from "lucide-react";
 
@@ -38,7 +39,7 @@ export const Route = createFileRoute("/destinations/$slug")({
     </div>
   ),
   errorComponent: ({ error }) => (
-    <div className="flex min-h-screen items-center justify-center px-6 text-center">
+    <div className="flex min-h-screen items-center justify-center px-5 text-center sm:px-6">
       <p className="text-muted-foreground">{error.message}</p>
     </div>
   ),
@@ -60,8 +61,16 @@ function DestinationDetail() {
         imageAlt={`${dest.name}, Egypt`}
       />
 
-      {/* The Place */}
-      <section className="mx-auto max-w-3xl px-6 py-32 text-center md:py-44">
+      <div className="mx-auto max-w-[1400px] px-6 pt-8 md:px-10">
+        <Breadcrumb
+          items={[
+            { label: "Destinations", href: "/destinations" },
+            { label: dest.name },
+          ]}
+        />
+      </div>
+
+      <section className="mx-auto max-w-3xl px-5 py-24 text-center sm:px-6 md:py-44">
         <Reveal>
           <Eyebrow>The Place</Eyebrow>
         </Reveal>
@@ -83,16 +92,12 @@ function DestinationDetail() {
         </Reveal>
       </section>
 
-      {/* Full-width image divider */}
       <section className="relative h-[70vh] w-full overflow-hidden md:h-[80vh]">
         <img src={dest.image} alt={dest.name} className="h-full w-full object-cover" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 via-transparent to-charcoal/20" />
         <div className="absolute bottom-12 left-0 right-0 text-center">
           <Reveal>
-            <Link
-              to="/contact"
-              className="btn-primary"
-            >
+            <Link to="/contact" className="btn-primary">
               <span>Inquire about {dest.name}</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
@@ -100,7 +105,6 @@ function DestinationDetail() {
         </div>
       </section>
 
-      {/* Other Destinations */}
       <section className="bg-background py-32 md:py-44">
         <div className="mx-auto max-w-[1400px] px-6 md:px-10">
           <Reveal>

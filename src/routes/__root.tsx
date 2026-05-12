@@ -7,12 +7,11 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-charcoal px-6 text-center text-ivory">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-charcoal px-5 text-center text-ivory sm:px-6">
       <div className="eyebrow text-ivory/50 mb-6">Page Not Found</div>
       <h1 className="font-serif text-8xl text-ivory">404</h1>
       <p className="mt-6 max-w-sm text-sm text-ivory/60">
@@ -36,7 +35,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-6 text-center">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-5 text-center sm:px-6">
       <div className="eyebrow mb-6">Something went wrong</div>
       <h1 className="font-serif text-4xl text-foreground md:text-5xl">
         This page didn't load

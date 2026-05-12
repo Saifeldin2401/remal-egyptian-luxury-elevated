@@ -15,6 +15,10 @@ export function BackToTop() {
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       className={`back-to-top ${visible ? "is-visible" : ""}`}
       aria-label="Back to top"
+      style={{
+        bottom: "max(1.5rem, env(safe-area-inset-bottom))",
+        right: "max(1.5rem, env(safe-area-inset-right))",
+      }}
     >
       <ArrowUp className="h-4 w-4" />
     </button>

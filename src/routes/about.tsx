@@ -5,7 +5,9 @@ import { Reveal, Eyebrow } from "@/components/remal/Reveal";
 import { EditorialBlock } from "@/components/remal/EditorialBlock";
 import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
-import { ArrowRight, Heart, Eye, Users } from "lucide-react";
+import { Breadcrumb } from "@/components/remal/Breadcrumb";
+import { team } from "@/data/team";
+import { ArrowRight } from "lucide-react";
 import hero from "@/assets/dest-cairo.jpg";
 import villa from "@/assets/feature-villa.jpg";
 import sea from "@/assets/feature-pool.jpg";
@@ -23,24 +25,6 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-const VALUES = [
-  {
-    icon: Heart,
-    title: "Warmth",
-    body: "Egyptian hospitality is not performed — it is felt. We train our teams to host from the heart, not a script.",
-  },
-  {
-    icon: Eye,
-    title: "Attention",
-    body: "The unseen details — the fold of a napkin, the temperature of a hallway — define luxury more than any grand gesture.",
-  },
-  {
-    icon: Users,
-    title: "Community",
-    body: "Every property is woven into the fabric of its place. We hire locally, source locally, and celebrate locally.",
-  },
-];
-
 function AboutPage() {
   return (
     <div className="bg-background text-foreground">
@@ -53,8 +37,12 @@ function AboutPage() {
         imageAlt="Old Cairo at dusk"
       />
 
+      <div className="mx-auto max-w-[1400px] px-6 pt-8 md:px-10">
+        <Breadcrumb items={[{ label: "About", href: "/about" }]} />
+      </div>
+
       {/* Story */}
-      <section className="mx-auto max-w-3xl px-6 py-32 text-center md:py-44">
+      <section className="mx-auto max-w-3xl px-5 py-24 text-center sm:px-6 md:py-44">
         <Reveal><Eyebrow>Our Story</Eyebrow></Reveal>
         <Reveal delay={150}>
           <p className="mt-10 font-serif text-2xl leading-[1.4] md:text-[32px]">
@@ -64,6 +52,37 @@ function AboutPage() {
             corners — and give Egyptians a hospitality scene worthy of their warmth.
           </p>
         </Reveal>
+      </section>
+
+      {/* Team */}
+      <section className="bg-secondary py-32 md:py-44">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+          <div className="mb-16 text-center">
+            <Reveal><Eyebrow>Leadership</Eyebrow></Reveal>
+            <Reveal delay={100}>
+              <h2 className="mt-4 font-serif text-4xl md:text-5xl">The People Behind REMAL</h2>
+            </Reveal>
+            <Reveal delay={200}>
+              <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
+                A senior team with decades of experience in luxury operations, design, and Egyptian cultural production.
+              </p>
+            </Reveal>
+          </div>
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+            {team.map((member, i) => (
+              <Reveal key={member.name} delay={i * 100}>
+                <div className="group text-center">
+                  <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-charcoal text-ivory transition-transform duration-500 group-hover:scale-105">
+                    <span className="font-serif text-2xl">{member.initials}</span>
+                  </div>
+                  <h3 className="mt-6 font-serif text-2xl">{member.name}</h3>
+                  <p className="mt-1 text-sm uppercase tracking-[0.2em] text-clay">{member.role}</p>
+                  <p className="mt-4 text-sm text-muted-foreground">{member.bio}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Values */}
@@ -76,10 +95,14 @@ function AboutPage() {
             </Reveal>
           </div>
           <div className="grid gap-12 md:grid-cols-3">
-            {VALUES.map((v, i) => (
+            {[
+              { title: "Warmth", body: "Egyptian hospitality is not performed — it is felt. We train our teams to host from the heart, not a script." },
+              { title: "Attention", body: "The unseen details — the fold of a napkin, the temperature of a hallway — define luxury more than any grand gesture." },
+              { title: "Community", body: "Every property is woven into the fabric of its place. We hire locally, source locally, and celebrate locally." },
+            ].map((v, i) => (
               <Reveal key={v.title} delay={i * 120}>
                 <div className="group border-t hairline pt-8 transition-all">
-                  <v.icon className="h-6 w-6 text-bronze transition-transform duration-500 group-hover:scale-110" />
+                  <Eyebrow>0{i + 1}</Eyebrow>
                   <h3 className="mt-5 font-serif text-3xl">{v.title}</h3>
                   <p className="mt-4 text-muted-foreground">{v.body}</p>
                 </div>
@@ -104,30 +127,6 @@ function AboutPage() {
         imageAlt="Open-air pool overlooking the sea"
         reverse
       />
-
-      {/* Leadership CTA */}
-      <section className="bg-charcoal py-32 text-ivory md:py-44">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <Reveal><Eyebrow className="text-ivory/50">Leadership</Eyebrow></Reveal>
-          <Reveal delay={120}>
-            <h2 className="mt-8 font-serif text-4xl md:text-5xl">A Senior Team, Building Something New.</h2>
-          </Reveal>
-          <Reveal delay={240}>
-            <p className="mt-8 text-ivory/60">
-              Our founding team brings together decades of experience in luxury operations,
-              real-estate development, and Egyptian cultural production. We work as a flat,
-              senior team — closer to a studio than a corporation.
-            </p>
-            <Link
-              to="/contact"
-              className="btn-primary mt-12"
-            >
-              <span>Meet the team</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </Reveal>
-        </div>
-      </section>
 
       <SiteFooter />
       <BackToTop />

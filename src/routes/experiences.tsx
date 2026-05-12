@@ -5,53 +5,11 @@ import { Reveal, Eyebrow } from "@/components/remal/Reveal";
 import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
 import { ParallaxSection } from "@/components/remal/ParallaxSection";
+import { Breadcrumb } from "@/components/remal/Breadcrumb";
+import { experiences } from "@/data/experiences";
 import { ArrowRight } from "lucide-react";
 import hero from "@/assets/feature-pool.jpg";
-import imgWellness from "@/assets/journal-stars.jpg";
-import imgDesert from "@/assets/divider-desert.jpg";
-import imgSea from "@/assets/dest-redsea.jpg";
-import imgCulinary from "@/assets/journal-dining.jpg";
-import imgCulture from "@/assets/journal-artisan.jpg";
-import imgNile from "@/assets/dest-aswan.jpg";
-
-const EXPERIENCES = [
-  {
-    title: "Wellness Rituals",
-    body: "Hammam ceremonies, sand-scrub treatments and dawn yoga overlooking the sea. Our wellness programmes draw on ancient Egyptian and Nubian traditions.",
-    image: imgWellness,
-    number: "01",
-  },
-  {
-    title: "Desert Expeditions",
-    body: "Bedouin-guided treks through the White Desert and overnight camps under the stars. Wake to silence, coffee brewed on sand, and a horizon with no end.",
-    image: imgDesert,
-    number: "02",
-  },
-  {
-    title: "Red Sea Diving",
-    body: "Private guided dives across protected reefs of the Egyptian Red Sea. From novice snorkellers to deep-water veterans, we match the sea to the swimmer.",
-    image: imgSea,
-    number: "03",
-  },
-  {
-    title: "Culinary Journeys",
-    body: "Multi-course tasting menus rooted in Egyptian terroir and ancient grains. Every dish tells the story of a region, a season, a farmer.",
-    image: imgCulinary,
-    number: "04",
-  },
-  {
-    title: "Cultural Encounters",
-    body: "Workshops with weavers, perfumers, and ceramicists across the country. Not a performance — a conversation between guest and maker.",
-    image: imgCulture,
-    number: "05",
-  },
-  {
-    title: "Nile Voyages",
-    body: "Slow sailing days aboard restored feluccas with private chefs and musicians. The Nile teaches patience — and rewards it with beauty.",
-    image: imgNile,
-    number: "06",
-  },
-];
+import ctaImage from "@/assets/dest-sinai.jpg";
 
 export const Route = createFileRoute("/experiences")({
   head: () => ({
@@ -78,8 +36,12 @@ function ExperiencesPage() {
         imageAlt="Open-air pool overlooking the sea at sunset"
       />
 
+      <div className="mx-auto max-w-[1400px] px-6 pt-8 md:px-10">
+        <Breadcrumb items={[{ label: "Experiences", href: "/experiences" }]} />
+      </div>
+
       {/* Intro */}
-      <section className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
+      <section className="mx-auto max-w-3xl px-5 py-20 text-center sm:px-6 md:py-32">
         <Reveal>
           <p className="font-serif text-xl leading-[1.5] text-muted-foreground md:text-2xl">
             Every experience will begin with a question: what would make this place unforgettable?
@@ -91,10 +53,10 @@ function ExperiencesPage() {
       {/* Experiences grid - alternating layout */}
       <section className="mx-auto max-w-[1400px] px-6 pb-32 md:px-10">
         <div className="space-y-24 md:space-y-32">
-          {EXPERIENCES.map((e, i) => {
+          {experiences.map((e, i) => {
             const isReversed = i % 2 === 1;
             return (
-              <Reveal key={e.title} delay={(i % 2) * 120}>
+              <Reveal key={e.slug} delay={(i % 2) * 120}>
                 <div className={`grid grid-cols-1 items-center gap-10 md:grid-cols-12 md:gap-16`}>
                   <div className={`md:col-span-7 ${isReversed ? "md:order-2" : ""}`}>
                     <div className="img-hover-zoom overflow-hidden">
@@ -120,9 +82,9 @@ function ExperiencesPage() {
 
       {/* Parallax CTA */}
       <ParallaxSection
-        image={imgDesert}
-        imageAlt="Desert landscape at golden hour"
-        height="h-[60vh]"
+        image={ctaImage}
+        imageAlt="Sinai mountains at golden hour"
+        height="h-[50vh] sm:h-[60vh]"
       >
         <div>
           <Reveal>

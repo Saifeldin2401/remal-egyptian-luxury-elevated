@@ -5,7 +5,8 @@ import { Reveal, Eyebrow } from "@/components/remal/Reveal";
 import { InquiryForm } from "@/components/remal/InquiryForm";
 import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
-import { MapPin, Mail, Phone, Clock } from "lucide-react";
+import { Breadcrumb } from "@/components/remal/Breadcrumb";
+import { MapPin, Mail, Phone, Clock, Instagram, Linkedin } from "lucide-react";
 import hero from "@/assets/divider-desert.jpg";
 
 export const Route = createFileRoute("/contact")({
@@ -22,30 +23,10 @@ export const Route = createFileRoute("/contact")({
 });
 
 const CONTACT_INFO = [
-  {
-    icon: Mail,
-    label: "General",
-    value: "hello@remal.co",
-    href: "mailto:hello@remal.co",
-  },
-  {
-    icon: Mail,
-    label: "Partnerships",
-    value: "partners@remal.co",
-    href: "mailto:partners@remal.co",
-  },
-  {
-    icon: Mail,
-    label: "Press",
-    value: "press@remal.co",
-    href: "mailto:press@remal.co",
-  },
-  {
-    icon: Phone,
-    label: "Phone",
-    value: "+20 (0)2 2736 0000",
-    href: "tel:+20227360000",
-  },
+  { icon: Mail, label: "General", value: "hello@remal.co", href: "mailto:hello@remal.co" },
+  { icon: Mail, label: "Partnerships", value: "partners@remal.co", href: "mailto:partners@remal.co" },
+  { icon: Mail, label: "Press", value: "press@remal.co", href: "mailto:press@remal.co" },
+  { icon: Phone, label: "Phone", value: "+20 (0)2 2736 0000", href: "tel:+20227360000" },
 ];
 
 function ContactPage() {
@@ -60,7 +41,10 @@ function ContactPage() {
         imageAlt="Egyptian desert at dusk"
       />
 
-      {/* Contact form + info */}
+      <div className="mx-auto max-w-[1400px] px-6 pt-8 md:px-10">
+        <Breadcrumb items={[{ label: "Contact", href: "/contact" }]} />
+      </div>
+
       <section className="mx-auto max-w-[1400px] px-6 py-32 md:px-10 md:py-44">
         <div className="grid grid-cols-1 gap-16 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -107,6 +91,28 @@ function ContactPage() {
                 ))}
               </dl>
             </Reveal>
+            <Reveal delay={400}>
+              <div className="mt-10 flex gap-6">
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-charcoal/15 text-charcoal transition-colors hover:bg-charcoal hover:text-ivory"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-charcoal/15 text-charcoal transition-colors hover:bg-charcoal hover:text-ivory"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-4 w-4" />
+                </a>
+              </div>
+            </Reveal>
           </div>
           <Reveal className="md:col-span-7" delay={200}>
             <InquiryForm />
@@ -114,7 +120,6 @@ function ContactPage() {
         </div>
       </section>
 
-      {/* Map section */}
       <section className="relative h-[50vh] w-full overflow-hidden bg-secondary md:h-[60vh]">
         <iframe
           title="REMAL Cairo Office"
