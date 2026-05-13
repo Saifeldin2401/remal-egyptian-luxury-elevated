@@ -74,7 +74,7 @@ const SERVICES = [
 const HERO_VIDEOS = [
   "https://videos.pexels.com/video-files/10717893/10717893-uhd_2560_1440_24fps.mp4",
   "https://videos.pexels.com/video-files/3015482/3015482-hd_1920_1080_24fps.mp4",
-  "https://videos.pexels.com/video-files/5765245/5765245-hd_1920_1080_30fps.mp4",
+  "https://videos.pexels.com/video-files/2169880/2169880-hd_1920_1080_30fps.mp4",
   "https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4",
 ];
 
