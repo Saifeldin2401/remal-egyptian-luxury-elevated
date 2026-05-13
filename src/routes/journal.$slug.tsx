@@ -73,7 +73,7 @@ function JournalArticlePage() {
       {/* Article body */}
       <article className="mx-auto max-w-3xl px-5 py-12 sm:px-6 sm:py-16 md:py-24">
         <div className="space-y-8">
-          {paragraphs.map((para, i) => (
+          {paragraphs.map((para: string, i: number) => (
             <Reveal key={i} delay={i * 60}>
               <p className="font-serif text-xl leading-[1.6] text-charcoal md:text-2xl">
                 {para}

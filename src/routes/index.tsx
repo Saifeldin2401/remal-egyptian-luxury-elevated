@@ -10,6 +10,7 @@ import { BackToTop } from "@/components/remal/BackToTop";
 import { ParallaxSection } from "@/components/remal/ParallaxSection";
 import { destinations } from "@/data/destinations";
 import { ArrowRight, ChevronDown } from "lucide-react";
+import { SandLoader } from "@/components/remal/SandLoader";
 
 import hero from "@/assets/hero-desert.jpg";
 import featureVilla from "@/assets/feature-villa.jpg";
@@ -90,8 +91,11 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
     const h = () => {
       setReady(true);
       onReady?.();
+      v.play().catch(() => {});
     };
     v.addEventListener("canplay", h, { once: true });
+    // Safety: if canplay fires before listener attaches
+    if (v.readyState >= 3) h();
     return () => v.removeEventListener("canplay", h);
   }, [onReady]);
 
@@ -109,6 +113,8 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
       const backRef = front === "a" ? videoB : videoA;
       const newFront = front === "a" ? "b" : "a";
 
+      const bv = backRef.current;
+      if (bv) { try { bv.currentTime = 0; } catch {} }
       backRef.current?.play().catch(() => {});
       setFront(newFront);
 
@@ -121,8 +127,8 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
           v.src = HERO_VIDEOS[nextClipIndex];
           v.load();
         }
-      }, 1600);
-    }, 6000);
+      }, 1800);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, [ready, front]);
@@ -139,7 +145,7 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
           opacity: front === "a" ? 1 : 0,
           transition: "opacity 1.5s ease-in-out",
         }}
-        autoPlay muted playsInline preload="auto" aria-hidden="true"
+        autoPlay loop muted playsInline preload="auto" aria-hidden="true"
       >
         <source src={HERO_VIDEOS[0]} type="video/mp4" />
       </video>
@@ -152,7 +158,7 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
           opacity: front === "b" ? 1 : 0,
           transition: "opacity 1.5s ease-in-out",
         }}
-        muted playsInline preload="auto" aria-hidden="true"
+        loop muted playsInline preload="auto" aria-hidden="true"
       />
 
       <div className="absolute inset-0 z-[3] bg-gradient-to-b from-charcoal/60 via-charcoal/20 to-charcoal/75" />
@@ -184,6 +190,7 @@ function Home() {
 
   return (
     <div className="bg-background text-foreground">
+      <SandLoader videoReady={videoReady} />
       <ScrollProgress />
       <SiteHeader overlay />
 
