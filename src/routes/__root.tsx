@@ -89,6 +89,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
+        { property: "og:title", content: "REMAL — Hospitality Management in Egypt" },
+        { name: "twitter:title", content: "REMAL — Hospitality Management in Egypt" },
+        { name: "description", content: "REMAL elevates Egyptian hospitality with a luxury, cinematic website showcasing management, resorts, and tourism experiences." },
+        { property: "og:description", content: "REMAL elevates Egyptian hospitality with a luxury, cinematic website showcasing management, resorts, and tourism experiences." },
+        { name: "twitter:description", content: "REMAL elevates Egyptian hospitality with a luxury, cinematic website showcasing management, resorts, and tourism experiences." },
+        { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9368ea60-b84b-460b-a6be-12895cd80218/id-preview-b1461a9b--02b22989-ee5b-4c49-abb7-e4a15b87ab93.lovable.app-1778624200748.png" },
+        { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9368ea60-b84b-460b-a6be-12895cd80218/id-preview-b1461a9b--02b22989-ee5b-4c49-abb7-e4a15b87ab93.lovable.app-1778624200748.png" },
       ],
       links: [
         {
