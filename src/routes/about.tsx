@@ -6,7 +6,6 @@ import { EditorialBlock } from "@/components/remal/EditorialBlock";
 import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
 import { Breadcrumb } from "@/components/remal/Breadcrumb";
-import { team } from "@/data/team";
 import { ArrowRight } from "lucide-react";
 import hero from "@/assets/dest-cairo.jpg";
 import villa from "@/assets/feature-villa.jpg";
@@ -46,38 +45,40 @@ function AboutPage() {
         <Reveal><Eyebrow>Our Story</Eyebrow></Reveal>
         <Reveal delay={150}>
           <p className="mt-10 font-serif text-2xl leading-[1.4] md:text-[32px]">
-            REMAL was founded by a group of hoteliers, designers, and Egyptians
-            who love their country too much to see it overlooked. We are building
-            and branding places that will bring the world into Egypt's many quiet
-            corners — and give Egyptians a hospitality scene worthy of their warmth.
+            REMAL is a hospitality house founded in Egypt — built on a single belief:
+            that this country deserves a generation of properties as quietly considered,
+            as deeply rooted, and as warmly run as anywhere in the world. We are
+            shaping that future from the ground up — coastline by coastline, oasis by oasis.
           </p>
         </Reveal>
       </section>
 
-      {/* Team */}
+      {/* What we do */}
       <section className="bg-secondary py-32 md:py-44">
         <div className="mx-auto max-w-[1400px] px-6 md:px-10">
           <div className="mb-16 text-center">
-            <Reveal><Eyebrow>Leadership</Eyebrow></Reveal>
+            <Reveal><Eyebrow>The House</Eyebrow></Reveal>
             <Reveal delay={100}>
-              <h2 className="mt-4 font-serif text-4xl md:text-5xl">The People Behind REMAL</h2>
+              <h2 className="mt-4 font-serif text-4xl md:text-5xl">What REMAL Does</h2>
             </Reveal>
             <Reveal delay={200}>
               <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
-                A senior team with decades of experience in luxury operations, design, and Egyptian cultural production.
+                A vertically integrated hospitality house — branding, designing,
+                opening and operating boutique destinations across Egypt.
               </p>
             </Reveal>
           </div>
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
-            {team.map((member, i) => (
-              <Reveal key={member.name} delay={i * 100}>
-                <div className="group text-center">
-                  <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-charcoal text-ivory transition-transform duration-500 group-hover:scale-105">
-                    <span className="font-serif text-2xl">{member.initials}</span>
-                  </div>
-                  <h3 className="mt-6 font-serif text-2xl">{member.name}</h3>
-                  <p className="mt-1 text-sm uppercase tracking-[0.2em] text-clay">{member.role}</p>
-                  <p className="mt-4 text-sm text-muted-foreground">{member.bio}</p>
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
+            {[
+              { num: "01", title: "Brand & Concept", body: "We craft hospitality brands that feel inevitable — rooted in their geography, distinct in their voice, and built to outlast trends." },
+              { num: "02", title: "Design & Development", body: "From masterplan to material library, we shape properties in dialogue with their landscape, working with Egypt's most considered architects and artisans." },
+              { num: "03", title: "Operations & Management", body: "We run the day-to-day with the same care we put into the brand — service rituals, revenue strategy, and a uniquely Egyptian standard of warmth." },
+            ].map((v, i) => (
+              <Reveal key={v.title} delay={i * 120}>
+                <div className="border-t hairline pt-8">
+                  <Eyebrow>{v.num}</Eyebrow>
+                  <h3 className="mt-5 font-serif text-2xl md:text-3xl">{v.title}</h3>
+                  <p className="mt-4 text-muted-foreground">{v.body}</p>
                 </div>
               </Reveal>
             ))}
