@@ -10,8 +10,8 @@ import { Breadcrumb } from "@/components/remal/Breadcrumb";
 import { pillars, impactStats } from "@/data/sustainability";
 import { ArrowRight } from "lucide-react";
 import hero from "@/assets/sustainability.jpg";
-import villa from "@/assets/feature-villa.jpg";
-import desert from "@/assets/divider-desert.jpg";
+import land from "@/assets/sustain-land.jpg";
+import reef from "@/assets/sustain-reef.jpg";
 
 export const Route = createFileRoute("/sustainability")({
   head: () => ({
@@ -87,15 +87,15 @@ function SustainabilityPage() {
         eyebrow="Our Commitment"
         title="Built With, Not On."
         body="From the choice of stone to the orientation of every window, our properties will be designed to disappear into their surroundings — leaving the landscape louder than the architecture."
-        image={villa}
-        imageAlt="Mudbrick villa nestled into desert landscape"
+        image={land}
+        imageAlt="Low-impact mudbrick lodge nestled into Egyptian desert dunes"
       />
       <EditorialBlock
         eyebrow="The Long View"
         title="Tourism That Restores."
         body="A hotel can plant trees, restore reefs, and give a young weaver a workshop. Hospitality is one of Egypt's most powerful instruments — and we intend to use it deliberately."
-        image={desert}
-        imageAlt="Sun setting across Egyptian desert"
+        image={reef}
+        imageAlt="Vibrant Red Sea coral reef teeming with marine life"
         reverse
       />
 
