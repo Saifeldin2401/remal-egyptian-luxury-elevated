@@ -597,3 +597,122 @@
 .text-shadow-hero {
   text-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1);
 }
+
+/* ──────────── GRAIN TEXTURE OVERLAY ──────────── */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.16  0 0 0 0 0.13  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 240px;
+}
+
+/* ──────────── MARQUEE ──────────── */
+.marquee-strip {
+  overflow: hidden;
+  position: relative;
+}
+.marquee-strip::before,
+.marquee-strip::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  z-index: 2;
+  pointer-events: none;
+}
+.marquee-strip::before {
+  left: 0;
+  background: linear-gradient(to right, var(--ivory), transparent);
+}
+.marquee-strip::after {
+  right: 0;
+  background: linear-gradient(to left, var(--ivory), transparent);
+}
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee-scroll 38s linear infinite;
+  will-change: transform;
+}
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  letter-spacing: -0.01em;
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.3333%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+/* ──────────── MAGNETIC ──────────── */
+.magnetic {
+  display: inline-flex;
+  transition: transform 450ms cubic-bezier(.2,.7,.2,1);
+  will-change: transform;
+}
+
+/* ──────────── DESTINATION CARD OVERLAY ──────────── */
+.dest-card {
+  position: relative;
+}
+.dest-card .dest-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, color-mix(in oklab, var(--charcoal) 75%, transparent) 0%, color-mix(in oklab, var(--charcoal) 25%, transparent) 45%, transparent 75%);
+  opacity: 0;
+  transition: opacity 600ms cubic-bezier(.2,.7,.2,1);
+}
+.dest-card:hover .dest-overlay {
+  opacity: 1;
+}
+.dest-card .dest-index {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-family: var(--font-serif);
+  color: var(--ivory);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+.dest-card:hover .dest-index {
+  opacity: 0.9;
+  transform: translateY(0);
+}
+.dest-card .dest-cta {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--ivory);
+  font-size: 0.6875rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 500ms ease 80ms, transform 500ms ease 80ms;
+}
+.dest-card:hover .dest-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ──────────── HERO WARMTH OVERLAY ──────────── */
+.hero-warm-tint {
+  background:
+    radial-gradient(ellipse at 50% 110%, color-mix(in oklab, var(--bronze) 35%, transparent) 0%, transparent 55%),
+    linear-gradient(to bottom, color-mix(in oklab, var(--charcoal) 55%, transparent) 0%, color-mix(in oklab, var(--charcoal) 15%, transparent) 40%, color-mix(in oklab, var(--charcoal) 70%, transparent) 100%);
+}

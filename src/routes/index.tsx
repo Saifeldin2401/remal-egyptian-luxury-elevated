@@ -11,6 +11,8 @@ import { ParallaxSection } from "@/components/remal/ParallaxSection";
 import { destinations } from "@/data/destinations";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { SandLoader } from "@/components/remal/SandLoader";
+import { MarqueeStrip } from "@/components/remal/MarqueeStrip";
+import { StatCounter } from "@/components/remal/StatCounter";
 
 import hero from "@/assets/hero-desert.jpg";
 import featureVilla from "@/assets/feature-villa.jpg";
@@ -162,7 +164,7 @@ function HeroVideo({ onReady }: { onReady?: () => void }) {
       />
 
       <div className="absolute inset-0 z-[3] bg-gradient-to-b from-charcoal/60 via-charcoal/20 to-charcoal/75" />
-      <div className="absolute inset-0 z-[3] bg-charcoal/15" />
+      <div className="absolute inset-0 z-[3] hero-warm-tint" />
     </div>
   );
 }
@@ -192,6 +194,7 @@ function Home() {
     <div className="bg-background text-foreground">
       <SandLoader videoReady={videoReady} />
       <ScrollProgress />
+      <div className="grain-overlay hidden md:block" aria-hidden />
       <SiteHeader overlay />
 
       {/* ═══════════ HERO ═══════════ */}
@@ -260,6 +263,9 @@ function Home() {
         </div>
       </section>
 
+      {/* ═══════════ MARQUEE STRIP ═══════════ */}
+      <MarqueeStrip />
+
       {/* ═══════════ VISION ═══════════ */}
       <section className="border-y hairline bg-secondary py-16 md:py-28">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-6 md:px-10">
@@ -308,13 +314,19 @@ function Home() {
                   params={{ slug: d.slug }}
                   className="group block"
                 >
-                  <div className="img-hover-zoom overflow-hidden">
+                  <div className="dest-card img-hover-zoom relative overflow-hidden">
                     <img
                       src={d.image}
                       alt={`${d.name}, Egypt — REMAL destination`}
                       loading="lazy"
                       className="aspect-[4/5] w-full object-cover"
                     />
+                    <div className="dest-overlay" />
+                    <div className="dest-index">{String(i + 1).padStart(2, "0")} / {String(destinations.length).padStart(2, "0")}</div>
+                    <div className="dest-cta">
+                      <span>Discover</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </div>
                   </div>
                   <div className="mt-5 sm:mt-6">
                     <div className="eyebrow">{d.region}</div>
@@ -335,6 +347,20 @@ function Home() {
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* ═══════════ STATS BAND ═══════════ */}
+      <section className="bg-background pb-24 md:pb-44">
+        <div className="mx-auto max-w-[1400px] border-t hairline px-5 pt-16 sm:px-6 md:px-10 md:pt-24">
+          <StatCounter
+            stats={[
+              { value: 7, label: "Egyptian Regions" },
+              { value: 100, suffix: "%", label: "Locally Rooted" },
+              { value: 24, suffix: "/7", label: "Guest Care" },
+              { value: 1, label: "Singular Vision" },
+            ]}
+          />
         </div>
       </section>
 
