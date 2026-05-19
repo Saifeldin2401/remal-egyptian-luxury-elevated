@@ -6,10 +6,9 @@ import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
 import { Breadcrumb } from "@/components/remal/Breadcrumb";
 import { destinations, getDestination } from "@/data/destinations";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, MapPin, CalendarDays, Compass, Sparkles, Sun } from "lucide-react";
 import { StickyMobileCTA } from "@/components/remal/StickyMobileCTA";
 import { ClipReveal } from "@/components/remal/ClipReveal";
-import { CalendarDays, Compass, Sparkles, Sun } from "lucide-react";
 
 export const Route = createFileRoute("/destinations/$slug")({
   loader: ({ params }) => {
