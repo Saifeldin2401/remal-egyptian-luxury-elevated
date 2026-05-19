@@ -13,6 +13,7 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { SandLoader } from "@/components/remal/SandLoader";
 import { MarqueeStrip } from "@/components/remal/MarqueeStrip";
 import { StatCounter } from "@/components/remal/StatCounter";
+import { WordReveal } from "@/components/remal/WordReveal";
 
 import hero from "@/assets/hero-desert.jpg";
 import featureVilla from "@/assets/feature-villa.jpg";
@@ -212,11 +213,13 @@ function Home() {
               <span className="divider-ornament text-ivory/50">Hospitality Management · Egypt</span>
             </Eyebrow>
           </Reveal>
-          <Reveal delay={200}>
-            <h1 className="text-shadow-hero mx-auto mt-8 max-w-4xl font-serif text-[clamp(2rem,8vw,5.5rem)] leading-[1] tracking-tight sm:text-[clamp(2.5rem,6vw,5.5rem)]">
-              A New Vision for Egyptian Hospitality
-            </h1>
-          </Reveal>
+          <WordReveal
+            as="h1"
+            text="A New Vision for Egyptian Hospitality"
+            delay={250}
+            stagger={90}
+            className="text-shadow-hero mx-auto mt-8 block max-w-4xl font-serif text-[clamp(2rem,8vw,5.5rem)] leading-[1] tracking-tight sm:text-[clamp(2.5rem,6vw,5.5rem)]"
+          />
           <Reveal delay={400}>
             <p className="mx-auto mt-6 max-w-xl text-sm font-light leading-relaxed text-ivory/80 sm:text-base md:text-lg">
               REMAL is building the next generation of immersive destinations
