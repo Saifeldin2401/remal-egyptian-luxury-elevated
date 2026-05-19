@@ -6,7 +6,9 @@ import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
 import { Breadcrumb } from "@/components/remal/Breadcrumb";
 import { destinations, getDestination } from "@/data/destinations";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, MapPin, CalendarDays, Compass, Sparkles, Sun } from "lucide-react";
+import { StickyMobileCTA } from "@/components/remal/StickyMobileCTA";
+import { ClipReveal } from "@/components/remal/ClipReveal";
 
 export const Route = createFileRoute("/destinations/$slug")({
   loader: ({ params }) => {
@@ -50,6 +52,13 @@ function DestinationDetail() {
   const { dest } = Route.useLoaderData();
   const others = destinations.filter((d) => d.slug !== dest.slug).slice(0, 3);
 
+  const expectations = [
+    { icon: Sun, label: "Best Season", value: "October – April" },
+    { icon: Compass, label: "Getting There", value: "Private transfer arranged" },
+    { icon: CalendarDays, label: "Ideal Stay", value: "4 – 7 nights" },
+    { icon: Sparkles, label: "Signature Moment", value: dest.tagline },
+  ];
+
   return (
     <div className="bg-background text-foreground">
       <ScrollProgress />
@@ -92,9 +101,33 @@ function DestinationDetail() {
         </Reveal>
       </section>
 
-      <section className="relative h-[70vh] w-full overflow-hidden md:h-[80vh]">
-        <img src={dest.image} alt={dest.name} className="h-full w-full object-cover" loading="lazy" />
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 via-transparent to-charcoal/20" />
+      {/* What to expect */}
+      <section className="border-y hairline bg-secondary py-20 md:py-28">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+          <Reveal>
+            <Eyebrow>What to Expect</Eyebrow>
+            <h2 className="mt-4 font-serif text-3xl md:text-4xl">A glimpse of the stay</h2>
+          </Reveal>
+          <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+            {expectations.map((e, i) => (
+              <Reveal key={e.label} delay={i * 100}>
+                <div className="border-t hairline pt-6">
+                  <e.icon className="h-5 w-5 text-clay" />
+                  <div className="mt-4 text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground">{e.label}</div>
+                  <div className="mt-2 font-serif text-lg sm:text-xl">{e.value}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Full bleed cinematic */}
+      <section className="relative h-[70vh] w-full overflow-hidden md:h-[85vh]">
+        <ClipReveal className="h-full w-full">
+          <img src={dest.image} alt={dest.name} className="h-full w-full object-cover" loading="lazy" />
+        </ClipReveal>
+        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-charcoal/25" />
         <div className="absolute bottom-12 left-0 right-0 text-center">
           <Reveal>
             <Link to="/contact" className="btn-primary">
@@ -140,6 +173,7 @@ function DestinationDetail() {
 
       <SiteFooter />
       <BackToTop />
+      <StickyMobileCTA label={`Stay at ${dest.name}`} cta="Inquire" />
     </div>
   );
 }

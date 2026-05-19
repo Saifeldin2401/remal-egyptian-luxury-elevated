@@ -1,5 +1,6 @@
 import { Reveal, Eyebrow } from "./Reveal";
 import { SiteHeader } from "./SiteHeader";
+import { WordReveal } from "./WordReveal";
 
 export function PageHero({
   eyebrow,
@@ -29,11 +30,13 @@ export function PageHero({
           <Reveal>
             <Eyebrow className="text-ivory/80">{eyebrow}</Eyebrow>
           </Reveal>
-          <Reveal delay={120}>
-            <h1 className="mx-auto mt-6 max-w-4xl font-serif text-[clamp(2.25rem,7vw,5rem)] leading-[1.05] tracking-tight sm:text-5xl md:text-7xl">
-              {title}
-            </h1>
-          </Reveal>
+          <WordReveal
+            as="h1"
+            text={title}
+            delay={150}
+            stagger={75}
+            className="mx-auto mt-6 block max-w-4xl font-serif text-[clamp(2.25rem,7vw,5rem)] leading-[1.05] tracking-tight sm:text-5xl md:text-7xl"
+          />
           {intro && (
             <Reveal delay={260}>
               <p className="mx-auto mt-6 max-w-xl text-sm font-light leading-relaxed text-ivory/85 sm:text-base md:text-lg">
