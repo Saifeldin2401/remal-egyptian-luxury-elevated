@@ -8,6 +8,8 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
+import { CustomCursor } from "@/components/remal/CustomCursor";
+import { AmbientOrbs } from "@/components/remal/AmbientOrbs";
 
 function NotFoundComponent() {
   return (
@@ -147,7 +149,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="page-enter">
+      <AmbientOrbs />
+      <CustomCursor />
+      <div className="page-enter relative z-[1]">
         <Outlet />
       </div>
     </QueryClientProvider>
