@@ -7,6 +7,8 @@ import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
 import { Breadcrumb } from "@/components/remal/Breadcrumb";
 import { ArrowRight } from "lucide-react";
+import { Timeline } from "@/components/remal/Timeline";
+import { PressStrip } from "@/components/remal/PressStrip";
 import hero from "@/assets/dest-cairo.jpg";
 import villa from "@/assets/feature-villa.jpg";
 import sea from "@/assets/feature-pool.jpg";
@@ -53,8 +55,30 @@ function AboutPage() {
         </Reveal>
       </section>
 
+      {/* Timeline */}
+      <section className="bg-secondary py-24 md:py-36">
+        <div className="mx-auto max-w-[1100px] px-6 md:px-10">
+          <div className="mb-14 text-center">
+            <Reveal><Eyebrow>The Arc</Eyebrow></Reveal>
+            <Reveal delay={100}>
+              <h2 className="mt-4 font-serif text-3xl md:text-5xl">A house, taking shape.</h2>
+            </Reveal>
+          </div>
+          <Timeline
+            entries={[
+              { year: "Foundations", title: "A vision for Egyptian hospitality", body: "REMAL is founded with a singular question: what would the next generation of Egyptian hospitality look like — rooted, quiet, and built to outlast trends?" },
+              { year: "Now", title: "Brand, design & operations", body: "Assembling the team, the design language, and the operating playbook that will define every future REMAL property." },
+              { year: "Soon", title: "First properties on the coast", body: "We are in conversation with landowners and developers across the Red Sea and Sinai to bring the first REMAL stays to life." },
+              { year: "Ahead", title: "A quiet line across Egypt", body: "From coral coves to Siwa palm gardens, a small constellation of properties — each one inseparable from the place it stands." },
+            ]}
+          />
+        </div>
+      </section>
+
+      <PressStrip />
+
       {/* What we do */}
-      <section className="bg-secondary py-32 md:py-44">
+      <section className="bg-background py-32 md:py-44">
         <div className="mx-auto max-w-[1400px] px-6 md:px-10">
           <div className="mb-16 text-center">
             <Reveal><Eyebrow>The House</Eyebrow></Reveal>

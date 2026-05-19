@@ -7,6 +7,8 @@ import { BackToTop } from "@/components/remal/BackToTop";
 import { Breadcrumb } from "@/components/remal/Breadcrumb";
 import { services, processSteps } from "@/data/services";
 import { ArrowRight } from "lucide-react";
+import { Accordion } from "@/components/remal/Accordion";
+import { StickyMobileCTA } from "@/components/remal/StickyMobileCTA";
 import hero from "@/assets/feature-villa.jpg";
 
 export const Route = createFileRoute("/services")({
@@ -23,6 +25,20 @@ export const Route = createFileRoute("/services")({
 });
 
 function ServicesPage() {
+  const groups: { label: string; items: { title: string; body: string }[] }[] = [
+    {
+      label: "Operations",
+      items: services.filter((s) => ["Hotel Operations", "Guest Experience Design", "Staff Training"].includes(s.title)),
+    },
+    {
+      label: "Commercial",
+      items: services.filter((s) => ["Revenue Management", "Brand Positioning", "Hospitality Consulting"].includes(s.title)),
+    },
+    {
+      label: "Pre-Opening & Development",
+      items: services.filter((s) => ["Resort Development", "Pre-Opening Services"].includes(s.title)),
+    },
+  ];
   return (
     <div className="bg-background text-foreground">
       <ScrollProgress />
@@ -38,16 +54,27 @@ function ServicesPage() {
         <Breadcrumb items={[{ label: "Services", href: "/services" }]} />
       </div>
 
-      {/* Services list */}
-      <section className="mx-auto max-w-[1400px] px-6 py-32 md:px-10 md:py-44">
-        <div className="grid grid-cols-1 gap-x-12 gap-y-16 md:grid-cols-2">
-          {services.map((s, i) => (
-            <Reveal key={s.title} delay={(i % 2) * 100}>
-              <article className="group border-t hairline pt-8">
-                <Eyebrow>0{i + 1}</Eyebrow>
-                <h2 className="mt-4 font-serif text-3xl md:text-4xl">{s.title}</h2>
-                <p className="mt-5 text-muted-foreground">{s.body}</p>
-              </article>
+      {/* Services grouped accordion */}
+      <section className="mx-auto max-w-[1100px] px-6 py-24 md:px-10 md:py-36">
+        <div className="space-y-16 md:space-y-24">
+          {groups.map((g, gi) => (
+            <Reveal key={g.label} delay={gi * 80}>
+              <div>
+                <div className="mb-6 flex items-baseline justify-between border-b hairline pb-4">
+                  <Eyebrow>{g.label}</Eyebrow>
+                  <span className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+                    0{gi + 1} / 0{groups.length}
+                  </span>
+                </div>
+                <Accordion
+                  defaultOpen={gi === 0 ? 0 : -1}
+                  items={g.items.map((s, i) => ({
+                    title: s.title,
+                    meta: `0${i + 1}`,
+                    content: <p>{s.body}</p>,
+                  }))}
+                />
+              </div>
             </Reveal>
           ))}
         </div>
@@ -101,6 +128,7 @@ function ServicesPage() {
 
       <SiteFooter />
       <BackToTop />
+      <StickyMobileCTA label="Partner with REMAL" cta="Discuss" />
     </div>
   );
 }
