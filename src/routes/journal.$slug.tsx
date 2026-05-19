@@ -5,6 +5,8 @@ import { Reveal, Eyebrow } from "@/components/remal/Reveal";
 import { ScrollProgress } from "@/components/remal/ScrollProgress";
 import { BackToTop } from "@/components/remal/BackToTop";
 import { Breadcrumb } from "@/components/remal/Breadcrumb";
+import { ShareButtons } from "@/components/remal/ShareButtons";
+import { ReadingProgress } from "@/components/remal/ReadingProgress";
 import { stories, getStory } from "@/data/journal";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
@@ -38,10 +40,13 @@ function JournalArticlePage() {
   const nextStory = currentIndex < stories.length - 1 ? stories[currentIndex + 1] : null;
 
   const paragraphs = story.body.split("\n\n");
+  const pullIndex = Math.floor(paragraphs.length / 2);
+  const pullQuote = paragraphs[pullIndex]?.split(".")[0] + ".";
 
   return (
     <div className="bg-background text-foreground">
       <ScrollProgress />
+      <ReadingProgress targetSelector="article.journal-article" />
       <PageHero
         eyebrow={story.eyebrow}
         title={story.title}
@@ -62,24 +67,40 @@ function JournalArticlePage() {
       {/* Article meta */}
       <section className="mx-auto max-w-3xl px-5 pt-12 sm:px-6 md:pt-24">
         <Reveal>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>{new Date(story.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
-            <span className="h-1 w-1 rounded-full bg-muted-foreground/40" />
-            <span>{story.readTime}</span>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <span>{new Date(story.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
+              <span className="h-1 w-1 rounded-full bg-muted-foreground/40" />
+              <span>{story.readTime}</span>
+            </div>
+            <ShareButtons title={story.title} />
           </div>
         </Reveal>
       </section>
 
       {/* Article body */}
-      <article className="mx-auto max-w-3xl px-5 py-12 sm:px-6 sm:py-16 md:py-24">
-        <div className="space-y-8">
+      <article className="journal-article mx-auto max-w-3xl px-5 py-12 sm:px-6 sm:py-16 md:py-24">
+        <div className="article-body space-y-8">
           {paragraphs.map((para: string, i: number) => (
-            <Reveal key={i} delay={i * 60}>
-              <p className="font-serif text-xl leading-[1.6] text-charcoal md:text-2xl">
-                {para}
-              </p>
-            </Reveal>
+            <div key={i}>
+              <Reveal delay={i * 40}>
+                <p className="font-serif text-xl leading-[1.6] text-charcoal md:text-2xl">
+                  {para}
+                </p>
+              </Reveal>
+              {i === pullIndex && pullQuote && (
+                <Reveal delay={i * 40 + 100}>
+                  <blockquote className="pull-quote">{pullQuote}</blockquote>
+                </Reveal>
+              )}
+            </div>
           ))}
+        </div>
+        <div className="mt-16 flex items-center justify-between border-t hairline pt-8">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+            Published {new Date(story.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+          </span>
+          <ShareButtons title={story.title} />
         </div>
       </article>
 
